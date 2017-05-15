@@ -1,0 +1,89 @@
+									README
+
+Problem Statement: The following Project Tries to solve two problem statements
+			
+			1. To Send Data to kafka broker in json format at different time intervals(Configurable).
+			2. To aggreagte this data using Spark Streaming for configurable window interval.
+
+
+Project Dependencies:
+	
+	1.Spark Installed version-2.1.1 URL-https://d3kbcqa49mib13.cloudfront.net/spark-2.1.1-bin-hadoop2.7.tgz
+	2.Kafka up and running.
+	3. OS-Linux or MacOS
+	
+
+Setup the Project.
+
+	1. git clone https://github.com/nitinchoudhry05/SparkStreaming.git
+	2. cd SparkStraming
+	3. sudo sh setup.sh
+
+
+
+Problem Stateemt 1-To Send Data to kafka broker in json format at different time intervals(Configurable). 
+ 
+	How To Run:
+		In the Source Directory 
+	
+		cmd-->python Kafka/ProduceRecords.py <Config File>
+
+		A sample Config file is added in source Directory by the name ConfigFile.
+		Config File should have the following attributes.
+		
+		SparkStreaming nitinchoudhry$ cat ConfigFile 
+						inputTopicName=test---------------------------> Name Of the Input Topic
+						outputTopicName=test_aggregated---------------> Name Of the Output Topic
+						brokerList=localhost:9092---------------------> Name of all the kafka brokers comma seperated
+						timeInterVal=30-------------------------------> Time interval for pushing message to Kafka
+						aggregationWindow=120-------------------------> Aggregation Interval For Spark
+
+		
+
+
+		example:-
+			SparkStreaming nitinchoudhry$ python Kafka/ProduceRecords.py ConfigFile 
+			Config Sucessfully Captured
+ 			Details:
+			1.TopicName=test
+			2.BrokerList=['localhost:9092']
+			3.TimeInterval=30
+			sending message {"TIMESTAMP": "2017-05-15T16:42:15", "key": "key1", "val": 8} for key key1 from topic test
+			sending message {"TIMESTAMP": "2017-05-15T16:42:16", "key": "key2", "val": 6} for key key2 from topic test
+			sending message {"TIMESTAMP": "2017-05-15T16:42:19", "key": "key3", "val": 4} for key key3 from topic test
+
+Problem Statement 2-To aggreagte this data using Spark Streaming for configurable window interval.
+
+	How To Run:
+                In the Source Directory 
+
+                cmd-->spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.1.0 StreamingKafka/RecordAggregator.py  <Config File>
+                
+                A sample Config file is added in source Directory by the name ConfigFile.
+                Config File should have the following attributes.
+                
+                SparkStreaming nitinchoudhry$ cat ConfigFile    
+                                                inputTopicName=test---------------------------> Name Of the Input Topic
+                                                outputTopicName=test_aggregated---------------> Name Of the Output Topic
+                                                brokerList=localhost:9092---------------------> Name of all the kafka brokers comma seperated
+                                                timeInterVal=30-------------------------------> Time interval for pushing message to Kafka
+                                                aggregationWindow=120-------------------------> Aggregation Interval For Spark
+
+
+		example:-
+			SparkStreaming nitinchoudhry$ spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.1.0 StreamingKafka/RecordAggregator.py  ConfigFile 
+			Ivy Default Cache set to: /Users/nitinchoudhry/.ivy2/cache
+			The jars for the packages stored in: /Users/nitinchoudhry/.ivy2/jars
+			:: loading settings :: url = jar:file:/Users/nitinchoudhry/Documents/Spark/spark-2.1.0-bin-hadoop2.7/jars/ivy-2.4.0.jar!/org/apache/ivy/core/settings/ivys			  ettings.xml
+			org.apache.spark#spark-streaming-kafka-0-8_2.11 added as a dependency...........
+
+
+
+How To Check Output:
+
+	1.To Chek Input Messages in kafka
+		In Kafka Installed Directory run command
+		bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic <input topic name> --from-beginning
+	2.To Check Aggregated Output in Kafka
+		In Kafka Installed Directory run command
+                bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic <output topic name> --from-beginning
