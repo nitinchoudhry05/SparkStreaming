@@ -1,3 +1,4 @@
+tar -zxvf kafka-python.tgz
 cd kafka-python
-sudo python setup.py install
+python setup.py install
 cd ../
