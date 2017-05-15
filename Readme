@@ -16,7 +16,7 @@ Project Dependencies:
 Setup the Project.
 
 	1. git clone https://github.com/nitinchoudhry05/SparkStreaming.git
-	2. cd SparkStraming
+	2. cd SparkStreaming
 	3. sudo sh setup.sh
 
 
