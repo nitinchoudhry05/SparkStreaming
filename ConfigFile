@@ -1,5 +1,0 @@
-inputTopicName=test
-outputTopicName=test_aggregated
-brokerList=localhost:9092
-timeInterVal=30
-aggregationWindow=120
